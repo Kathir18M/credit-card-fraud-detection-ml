@@ -1,0 +1,17 @@
+# Local data and large files
+data/creditcard.csv
+*.zip
+*.csv.gz
+
+# Python caches and environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+env/
+
+# Editor and OS settings
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
