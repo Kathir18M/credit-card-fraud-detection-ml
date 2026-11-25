@@ -207,7 +207,21 @@ Open your browser to `http://localhost:8501`.
 
 ---
 
-## 12. Quality Assurance & Validation Suite
+## 12. Application Screenshots
+
+| View | Preview |
+| :--- | :--- |
+| **Home Dashboard** | ![Home Dashboard](screenshots/01_home_dashboard.png) |
+| **Single Transaction Prediction** | ![Single Transaction Prediction](screenshots/02_single_transaction_prediction.png) |
+| **Batch Transaction Analysis** | ![Batch Transaction Analysis](screenshots/03_batch_transaction_analysis.png) |
+| **Exploratory Data Analysis** | ![Exploratory Data Analysis](screenshots/04_exploratory_data_analysis.png) |
+| **Model Performance Comparison** | ![Model Performance Comparison](screenshots/05_model_performance_comparison.png) |
+| **ROC & Precision-Recall Curves** | ![ROC & PR Curves](screenshots/06_model_performance_curves.png) |
+| **Feature Importance** | ![Feature Importance](screenshots/07_feature_importance.png) |
+
+---
+
+## 13. Quality Assurance & Validation Suite
 The codebase includes structured unit and integration tests covering:
 - Safe unpickling of pipeline artifacts across Python and Scikit-Learn versions.
 - Feature schema verification (ensuring exactly 30 features in expected order).
@@ -221,13 +235,13 @@ python -m unittest tests/test_system.py
 
 ---
 
-## 13. Limitations & Future Roadmap
+## 14. Limitations & Future Roadmap
 - **PCA Anonymization**: Feature anonymization protects privacy but prevents merchant-level behavioral analysis (e.g., MCC category, IP distance).
 - **Concept Drift**: Payment fraud techniques shift rapidly. Future iterations should implement continuous drift monitoring and automated retraining triggers.
 - **API Deployment**: Wrap the model in a FastAPI microservice with containerization (Docker) for low-latency REST endpoints.
 
 ---
 
-## 14. Author & Attribution
+## 15. Author & Attribution
 - **Project**: Credit Card Fraud Detection using Machine Learning
 - **Development**: Senior Data Science & ML Engineering Portfolio Implementation

@@ -351,9 +351,16 @@ def render_single_prediction(model, default_threshold, test_df):
         for feat in EXPECTED_FEATURES:
             default_vals[feat] = float(legit_sample[feat])
     elif preset_choice == "Sample Fraudulent Transaction (from Test Set)" and test_df is not None:
-        fraud_sample = test_df[test_df["Actual_Class"] == 1].iloc[0]
+        detected_frauds = test_df[(test_df["Actual_Class"] == 1) & (test_df["Predicted_Class"] == 1)]
+        fraud_sample = detected_frauds.iloc[0] if not detected_frauds.empty else test_df[test_df["Actual_Class"] == 1].iloc[0]
         for feat in EXPECTED_FEATURES:
             default_vals[feat] = float(fraud_sample[feat])
+
+    # Sync widget state when preset selection changes
+    if st.session_state.get("last_preset") != preset_choice:
+        st.session_state["last_preset"] = preset_choice
+        for feat in EXPECTED_FEATURES:
+            st.session_state[f"input_{feat}"] = float(default_vals[feat])
 
     with st.expander("Adjust Decision Threshold (Default: 0.30)", expanded=False):
         chosen_threshold = st.slider(
@@ -370,9 +377,9 @@ def render_single_prediction(model, default_threshold, test_df):
     # Time and Amount prominently placed
     col_t1, col_t2 = st.columns(2)
     with col_t1:
-        time_val = st.number_input("Time (Seconds from first transaction)", value=float(default_vals["Time"]), min_value=0.0, step=1.0)
+        time_val = st.number_input("Time (Seconds from first transaction)", min_value=0.0, step=1.0, key="input_Time")
     with col_t2:
-        amount_val = st.number_input("Amount (Transaction Currency EUR)", value=float(default_vals["Amount"]), min_value=0.0, step=0.01, format="%.2f")
+        amount_val = st.number_input("Amount (Transaction Currency EUR)", min_value=0.0, step=0.01, format="%.2f", key="input_Amount")
 
     # 28 PCA Features displayed in clean 4-column layout
     st.markdown("##### PCA Transformed Components (V1 – V28)")
@@ -385,7 +392,6 @@ def render_single_prediction(model, default_threshold, test_df):
         with v_cols[col_idx]:
             val = st.number_input(
                 feat_name,
-                value=float(default_vals[feat_name]),
                 format="%.4f",
                 key=f"input_{feat_name}",
             )
